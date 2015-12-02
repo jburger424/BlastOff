@@ -12,6 +12,12 @@ function canvasApp() {
   if (!canvasSupport()) {
     return;
   }
+  var theCanvas = document.getElementById("myCanvas");
+  var height = theCanvas.height; //get the heigth of the canvas
+  var width = theCanvas.width;  //get the width of the canvas
+  var context = theCanvas.getContext("2d");  //get the context
+  var then = Date.now();
+  var stars = new Array;
 
 
 
@@ -461,15 +467,9 @@ function canvasApp() {
 
 
   }
-  var theCanvas = document.getElementById("myCanvas");
-  var height = theCanvas.height; //get the heigth of the canvas
-  var width = theCanvas.width;  //get the width of the canvas
-  var context = theCanvas.getContext("2d");  //get the context
-  var then = Date.now();
-  var stars = new Array;
   var w = window;
   var requestAnimationFrame = w.requestAnimationFrame || w.webkitRequestAnimationFrame || w.msRequestAnimationFrame || w.mozRequestAnimationFrame;
-  requestAnimationFrame.context.translate(width / 2, height / 2);
+  context.translate(width / 2, height / 2);
   console.log("about to call main for first time");
   main();
 
