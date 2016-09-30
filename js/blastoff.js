@@ -17,7 +17,7 @@ function canvasApp() {
   var width = theCanvas.width;  //get the width of the canvas
   var context = theCanvas.getContext("2d");  //get the context
   var then = Date.now();
-  var stars = new Array;
+  var stars = [];
 
 
 
@@ -375,7 +375,7 @@ function canvasApp() {
     rocket.xLoc = 0;
     game.gameOver = false;
     game.startTime = Date.now();
-    stars = new Array;
+    stars = [];
     rocket.score = 0;
     rocket.health = 5; //was 10, just for testing TODO
     main();
@@ -420,17 +420,6 @@ function canvasApp() {
     }
 
 
-    //context.restore(); // restores the coordinate system back to (0,0)
-
-    /*context.fillStyle = "green";
-     context.fillRect(rocket.xLoc,rocket.yLoc,15,15);
-     context.fillStyle = "blue";
-     context.fillRect(rocket.xPoint,rocket.yPoint,10,10);
-     */
-    //context.rotate(rocket.angle);
-    //context.restore();
-
-
   };
 
   var drawStar = function (x, y, r, p, m, angle) {
@@ -457,9 +446,9 @@ function canvasApp() {
     console.log("in main");
     var now = Date.now();
     var delta = now - then;
-
+    console.log("calling update");
     update(delta / 1000);
-
+    console.log("calling render");
     render(delta / 1000);
     then = now;
     console.log("requesting animation frame");
