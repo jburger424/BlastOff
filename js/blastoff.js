@@ -53,25 +53,30 @@ function canvasApp() {
     this.value;
     this.isRed;
     //10% chance of randomness
-    this.isRed = (Math.random() < .1)?true:false;
+    this.isRed = Math.random() < .1;
 
     this.randNum = Math.random();
+
+    //determines star value
     if (this.randNum > .5) {
       this.value = 1;
     }
     else if (this.randNum > .15) {
       this.value = 2;
     }
-    else this.value = 3;
+    else {
+      this.value = 3;
+    }
+
     var dLoc = height;
     var validLoc = false;
     this.radius = (4 - this.value) * 10;
     var tempXLoc;
     var tempYLoc;
     var counter = 0;
-    while (!validLoc) {
+    //counter there to prevent infinite loop
+    while (!validLoc && counter < 20) {
       counter++;
-      //console.log("loop");
       validLoc = true;
       tempXLoc = dLoc - Math.random() * 2 * dLoc;
       tempYLoc = rocket.yLoc - height / 2 - Math.random() * height;
@@ -83,19 +88,20 @@ function canvasApp() {
           }
         }
       }
-
-
     }
-    console.log("Count: "+counter);
     this.xLoc = tempXLoc;
     this.yLoc = tempYLoc;
 
 
     this.hasCollided = false;
-    //console.log(rocket.xLoc+" "+rocket.yLoc);
-    this.draw = function () {
-      drawStar(this.xLoc, this.yLoc, this.radius, 5, .5, this.angle);
+
+    //anything else that shouldn't happen?
+    if(validLoc){
+      this.draw = function () {
+        drawStar(this.xLoc, this.yLoc, this.radius, 5, .5, this.angle);
+      }
     }
+
   }
 
   //var stars = new Array;
@@ -318,7 +324,7 @@ function canvasApp() {
       gameOver();
     }
     if (game.gameOver && 82 in keysDown) {
-      console.log("restart");
+      //console.log("restart");
       restart();
     }
     if (!game.gameOver) {
@@ -371,7 +377,7 @@ function canvasApp() {
   };
 
   var restart = function () {
-    console.log("restarting");
+    //console.log("restarting");
     then = Date.now();
     rocket.speed = 400;
     rocket.maxSpeed = 800;
@@ -397,18 +403,15 @@ function canvasApp() {
     var healthString = rocket.health.toString();
     context.fillStyle = "red";
     context.fillText(healthString, -220, rocket.yLoc - 250); //write score
-    console.log("render function drew frame");
     if (!game.gameOver) {
-      console.log("game isn't over");
       var dY = (rocket.speed * modifier);
       //rocket.xLoc += dX;
       rocket.yLoc -= dY;
       window.yMax -= dY;
       window.yMin -= dY;
-      console.log("calling updateStars()");
+      //console.log("potential crash");
       updateStars();
     }
-    console.log("calling drawStars()");
     drawStars();
     context.restore();
     context.translate(0, dY);
@@ -417,7 +420,6 @@ function canvasApp() {
 
 
     //context.translate(rocket.pointX,rocket.pointY);
-    console.log("calling drawRocket()");
     drawRocket(110);
 
     if (game.gameOver) {
@@ -452,12 +454,12 @@ function canvasApp() {
   // the game loop
 
   function main() {
-    console.log("in main");
+    //console.log("in main");
     var now = Date.now();
     var delta = now - then;
-    console.log("calling update");
+    //console.log("calling update");
     update(delta / 1000);
-    console.log("calling render");
+    //console.log("calling render");
     render(delta / 1000);
     then = now;
     //console.log("requesting animation frame");
