@@ -18,13 +18,15 @@ function canvasApp() {
   var context = theCanvas.getContext("2d");  //get the context
   var then = Date.now();
   var stars = [];
+  var pauseStartTime;
 
 
 
   var game = {
     gameOver: false,
     time: 0,
-    startTime: Date.now()
+    startTime: Date.now(),
+    isPaused: false
   };
   var rocket = {
     xLoc: 0,
@@ -96,8 +98,9 @@ function canvasApp() {
     this.hasCollided = false;
 
     //anything else that shouldn't happen?
-    if(validLoc){
+
       this.draw = function () {
+        if(validLoc){
         drawStar(this.xLoc, this.yLoc, this.radius, 5, .5, this.angle);
       }
     }
@@ -449,27 +452,36 @@ function canvasApp() {
     context.restore();
   };
 
-
+  document.getElementById("pause").onclick = function() {
+    if(!game.isPaused){
+      game.isPaused = false;
+    }
+    else{
+      game.isPaused = true;
+    }
+  };
 
   // the game loop
 
   function main() {
     //console.log("in main");
-    var now = Date.now();
-    var delta = now - then;
-    //console.log("calling update");
-    update(delta / 1000);
-    //console.log("calling render");
-    render(delta / 1000);
-    then = now;
+    if(!game.isPaused){
+      var now = Date.now();
+      var delta = now - then;
+      //console.log("calling update");
+      update(delta / 1000);
+      //console.log("calling render");
+      render(delta / 1000);
+      then = now;
+    }
+
     //console.log("requesting animation frame");
     requestAnimationFrame(main);
-
-
   }
   var w = window;
   var requestAnimationFrame = w.requestAnimationFrame || w.webkitRequestAnimationFrame || w.msRequestAnimationFrame || w.mozRequestAnimationFrame;
   context.translate(width / 2, height / 2);
+
   console.log("about to call main for first   time");
   main();
 
