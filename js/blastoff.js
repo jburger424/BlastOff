@@ -52,8 +52,8 @@ function canvasApp() {
     this.angle = Math.random() * 3.14 * 2;
     this.value;
     this.isRed;
-    if (Math.random() < .1) this.isRed = true;
-    else this.isRed = false;
+    //10% chance of randomness
+    this.isRed = (Math.random() < .1)?true:false;
 
     this.randNum = Math.random();
     if (this.randNum > .5) {
@@ -63,13 +63,15 @@ function canvasApp() {
       this.value = 2;
     }
     else this.value = 3;
-    //console.log("value:"+this.value);
     var dLoc = height;
     var validLoc = false;
     this.radius = (4 - this.value) * 10;
     var tempXLoc;
     var tempYLoc;
+    var counter = 0;
     while (!validLoc) {
+      counter++;
+      //console.log("loop");
       validLoc = true;
       tempXLoc = dLoc - Math.random() * 2 * dLoc;
       tempYLoc = rocket.yLoc - height / 2 - Math.random() * height;
@@ -84,6 +86,7 @@ function canvasApp() {
 
 
     }
+    console.log("Count: "+counter);
     this.xLoc = tempXLoc;
     this.yLoc = tempYLoc;
 
@@ -102,6 +105,7 @@ function canvasApp() {
       //console.log("working");
       for (var i = 0; i < stars.length; i++) {
         if (stars[i].hasCollided) {
+          /*TODO stupid code fix redundancy*/
           if (stars[i].isRed) {
             context.save();
             context.fillStyle = "white";//"rgb(255,162,162)";
@@ -393,14 +397,18 @@ function canvasApp() {
     var healthString = rocket.health.toString();
     context.fillStyle = "red";
     context.fillText(healthString, -220, rocket.yLoc - 250); //write score
+    console.log("render function drew frame");
     if (!game.gameOver) {
+      console.log("game isn't over");
       var dY = (rocket.speed * modifier);
       //rocket.xLoc += dX;
       rocket.yLoc -= dY;
       window.yMax -= dY;
       window.yMin -= dY;
+      console.log("calling updateStars()");
       updateStars();
     }
+    console.log("calling drawStars()");
     drawStars();
     context.restore();
     context.translate(0, dY);
@@ -409,6 +417,7 @@ function canvasApp() {
 
 
     //context.translate(rocket.pointX,rocket.pointY);
+    console.log("calling drawRocket()");
     drawRocket(110);
 
     if (game.gameOver) {
@@ -451,7 +460,7 @@ function canvasApp() {
     console.log("calling render");
     render(delta / 1000);
     then = now;
-    console.log("requesting animation frame");
+    //console.log("requesting animation frame");
     requestAnimationFrame(main);
 
 
@@ -459,7 +468,7 @@ function canvasApp() {
   var w = window;
   var requestAnimationFrame = w.requestAnimationFrame || w.webkitRequestAnimationFrame || w.msRequestAnimationFrame || w.mozRequestAnimationFrame;
   context.translate(width / 2, height / 2);
-  console.log("about to call main for first time");
+  console.log("about to call main for first   time");
   main();
 
 
