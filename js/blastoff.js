@@ -452,26 +452,47 @@ function canvasApp() {
     context.restore();
   };
 
+  function pause(){
+    game.isPaused = true;
+    document.getElementById("pause").innerHTML = "&#9654;";
+  }
+  function resume(){
+    then = Date.now();
+    game.isPaused = false;
+    document.getElementById("pause").innerHTML = "&#9208;";
+  }
+
+  function showHelp(){
+    document.getElementById("help_modal").className = "";
+    pause();
+  }
+
+  function hideHelp(){
+    document.getElementById("help_modal").className = "hidden";
+  }
+
   document.getElementById("pause").onclick = function() {
     //pause
     if(!game.isPaused){
-      game.isPaused = true;
+      pause();
     }
     //resume
     else{
-      then = Date.now();
-      game.isPaused = false;
+      resume();
     }
   };
 ///todo have modal show up at start if user has never played
+  //show help
   document.getElementById("help_button").onclick = function() {
-    document.getElementById("help_modal").className = "";
+    showHelp();
   };
   document.getElementById("close_help").onclick = function() {
-    document.getElementById("help_modal").className = "hidden";
+    hideHelp();
   };
 
   // the game loop
+
+
 
   function main() {
     //console.log("in main");
@@ -493,7 +514,16 @@ function canvasApp() {
   context.translate(width / 2, height / 2);
 
   console.log("about to call main for first   time");
-  main();
+
+  if (document.cookie.indexOf("visited") == 0) {
+    hideHelp();
+    main();
+  } else {
+    document.cookie = "visited";
+    main();
+    showHelp();
+  }
+  //main();
 
 
 } //canvasApp()
