@@ -73,6 +73,26 @@ span#close_help {
     transform: scaleY(.9);
     color: grey;
 }
+.star{
+    display: inline-block;
+    width: 30px;
+    text-align: center;
+}
+.lg.star{
+    font-size: 30px;
+}
+.md.star{
+    font-size: 20px;
+}
+.sm.star{
+    font-size: 10px;
+}
+
+.col-4 {
+    display: inline-block;
+    width: 30%;
+}
+
 
 
 
