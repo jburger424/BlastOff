@@ -1,5 +1,5 @@
 window.addEventListener("load", eventWindowLoaded, false);
-
+//TODO don't let it get wider than a square
 function eventWindowLoaded() {
   canvasApp();
 }
