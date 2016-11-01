@@ -50,15 +50,15 @@ function canvasApp() {
     xMax: width / 2
   };
 
+
   function Star() {
+    //angle is in radians
     this.angle = Math.random() * 3.14 * 2;
     this.value;
     this.isRed;
-    //10% chance of randomness
+    //10% of stars will be red
     this.isRed = Math.random() < .1;
-
     this.randNum = Math.random();
-
     //determines star value
     if (this.randNum > .5) {
       this.value = 1;
@@ -453,12 +453,22 @@ function canvasApp() {
   };
 
   document.getElementById("pause").onclick = function() {
+    //pause
     if(!game.isPaused){
-      game.isPaused = false;
-    }
-    else{
       game.isPaused = true;
     }
+    //resume
+    else{
+      then = Date.now();
+      game.isPaused = false;
+    }
+  };
+///todo have modal show up at start if user has never played
+  document.getElementById("help_button").onclick = function() {
+    document.getElementById("help_modal").className = "";
+  };
+  document.getElementById("close_help").onclick = function() {
+    document.getElementById("help_modal").className = "hidden";
   };
 
   // the game loop
