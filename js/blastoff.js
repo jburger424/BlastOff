@@ -12,13 +12,14 @@ function canvasApp() {
   if (!canvasSupport()) {
     return;
   }
-  var theCanvas = document.getElementById("myCanvas");
-  var height = theCanvas.height; //get the heigth of the canvas
-  var width = theCanvas.width;  //get the width of the canvas
-  var context = theCanvas.getContext("2d");  //get the context
+  var canvas = document.getElementById("myCanvas");
+  canvas.width = document.body.clientWidth; //document.width is obsolete
+  canvas.height = window.innerHeight - 125; //125 is header height
+  var height = canvas.height; //get the heigth of the canvas
+  var width = canvas.width;  //get the width of the canvas
+  var context = canvas.getContext("2d");  //get the context
   var then = Date.now();
   var stars = [];
-  var pauseStartTime;
 
 
 
@@ -35,7 +36,7 @@ function canvasApp() {
     yPoint: 0,
     score: 0,
     health: 5, //was 10 TODO
-    speed: 400,
+    speed: 2/3 * height, //400,
     maxSpeed: 800,
     turningSpeed: 600,
     minAngle: -.3,
@@ -44,8 +45,8 @@ function canvasApp() {
     targetAngle: 0,
     rotSpeed: 3,
     rotChange: 0,
-    width: 110,
-    height: 150,
+    width: width *.1863,
+    height: this.width * 1.36,
     xMin: -width / 2,
     xMax: width / 2
   };
@@ -101,7 +102,7 @@ function canvasApp() {
 
       this.draw = function () {
         if(validLoc){
-        drawStar(this.xLoc, this.yLoc, this.radius, 5, .5, this.angle);
+        drawStar(this.xLoc, this.yLoc, this.radius*(1/600)*width, 5, .5, this.angle);
       }
     }
 
