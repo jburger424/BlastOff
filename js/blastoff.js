@@ -15,11 +15,17 @@ function canvasApp() {
   var canvas = document.getElementById("myCanvas");
   canvas.width = document.body.clientWidth; //document.width is obsolete
   canvas.height = window.innerHeight - 125; //125 is header height
+  console.log("w: "+canvas.width + " h: "+canvas.height);
+  if(canvas.width > canvas.height){
+    canvas.width = canvas.height;
+  }
+  console.log("w: "+canvas.width + " h: "+canvas.height);
   var height = canvas.height; //get the heigth of the canvas
   var width = canvas.width;  //get the width of the canvas
   var context = canvas.getContext("2d");  //get the context
   var then = Date.now();
   var stars = [];
+  var gamma = 0;
 
 
 
@@ -37,15 +43,15 @@ function canvasApp() {
     score: 0,
     health: 5, //was 10 TODO
     speed: 2/3 * height, //400,
-    maxSpeed: 800,
-    turningSpeed: 600,
+    maxSpeed: 800, //todo fix
+    turningSpeed: width, //600,
     minAngle: -.3,
     maxAngle: .3,
     angle: 0,
     targetAngle: 0,
-    rotSpeed: 3,
+    rotSpeed: (1/200)*width,
     rotChange: 0,
-    width: width *.1863,
+    width: height *.1863,
     height: this.width * 1.36,
     xMin: -width / 2,
     xMax: width / 2
@@ -73,7 +79,7 @@ function canvasApp() {
 
     var dLoc = height;
     var validLoc = false;
-    this.radius = (4 - this.value) * 10;
+    this.radius = (4 - this.value) * (1/60)*width;
     var tempXLoc;
     var tempYLoc;
     var counter = 0;
@@ -346,6 +352,33 @@ function canvasApp() {
         }
 
       }
+      console.log("target:" +rocket.targetAngle);
+      //or if player is angling phone to left (gamma negative)
+      if (gamma < 0){
+
+        if (rocket.xLoc > rocket.xMin) {
+          console.log(gamma);
+          rocket.xLoc -= rocket.turningSpeed * (Math.abs(gamma) / 30) * modifier;
+          rocket.targetAngle = rocket.minAngle * (Math.abs(gamma) / 30);
+        }
+        else {
+          rocket.xLoc = rocket.xMin;
+          rocket.targetAngle = 0;
+        }
+
+      }
+      if (gamma > 0){
+        if (rocket.xLoc < rocket.xMax) {
+          rocket.xLoc += rocket.turningSpeed * (Math.abs(gamma) / 30) * modifier;
+          rocket.targetAngle = rocket.maxAngle * (Math.abs(gamma) / 30);
+        }
+        else {
+          rocket.xLoc = rocket.xMax;
+          rocket.targetAngle = 0;
+        }
+
+      }
+
       if (39 in keysDown && !(37 in keysDown)) { // Player holding right
         if (rocket.xLoc < rocket.xMax) {
           rocket.xLoc += rocket.turningSpeed * modifier;
@@ -358,7 +391,7 @@ function canvasApp() {
 
 
       }
-      if (!(37 in keysDown) && !(39 in keysDown)) {
+      if (!(37 in keysDown) && !(39 in keysDown) && Math.abs(gamma) < 10) {
         rocket.targetAngle = 0;
       }
       if ((37 in keysDown) && (39 in keysDown)) {
@@ -490,6 +523,35 @@ function canvasApp() {
   document.getElementById("close_help").onclick = function() {
     hideHelp();
   };
+
+
+  //from moz -- todo check that they're using a smart phone
+  function handleOrientation(event) {
+    var x = event.beta;  // In degree in the range [-180,180]
+    var y = event.gamma; // In degree in the range [-90,90]
+
+    //console.log("beta : " + x + "\n");
+    //console.log("gamma: " + y + "\n");
+
+    // Because we don't want to have the device upside down
+    // We constrain the x value to the range [-90,90]
+    if (x >  90) { x =  90};
+    if (x < -90) { x = -90};
+
+    // To make computation easier we shift the range of
+    // x and y to [0,180]
+    x += 90;
+    y += 90;
+
+    gamma = event.gamma;
+
+    // 10 is half the size of the ball
+    // It center the positioning point to the center of the ball
+    //ball.style.top  = (maxX*x/180 - 10) + "px";
+    //ball.style.left = (maxY*y/180 - 10) + "px";
+  }
+
+  window.addEventListener('deviceorientation', handleOrientation);
 
   // the game loop
 
