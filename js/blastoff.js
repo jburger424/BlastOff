@@ -36,10 +36,11 @@ function canvasApp() {
     isPaused: false
   };
   var rocket = {
+    yOffset: 100,
     xLoc: 0,
-    yLoc: 0,
+    yLoc: 100,
     xPoint: 0,
-    yPoint: 0,
+    yPoint: 100,
     score: 0,
     health: 6, //was 10 TODO
     speed: 2/3 * height, //400,
@@ -51,10 +52,10 @@ function canvasApp() {
     targetAngle: 0,
     rotSpeed: 3,
     rotChange: 0,
-    width: height *.1863,
-    height: this.width * 1.36,
-    xMin: -width / 2,
-    xMax: width / 2
+    width: height * .1863,
+    height: height * .2534,
+    xMin: -2*width / 5,
+    xMax: 2*width / 5
   };
 
 
@@ -204,7 +205,9 @@ function canvasApp() {
     rocket.height = rocket.width / 76;
 
     var xPoint = rocket.xLoc;
-    var yPoint = rocket.yLoc;
+    var yPoint = rocket.yPoint;
+
+    //console.log("yPoint:"+rocket.yPoint + "yLoc:"+rocket.yLoc);
 
     var rwX = [xPoint + 17, xPoint + 38, xPoint + 17, xPoint + 17];
     var rwY = [yPoint + 73, yPoint + 66, yPoint + 29, yPoint + 73]; //rightwind
@@ -246,7 +249,7 @@ function canvasApp() {
 
     //right wing point
     rocket.xPoint = bX[0];
-    rocket.yPoint = bY[0];
+    //rocket.yPoint = bY[0];
 
 
     //right wing
@@ -293,25 +296,6 @@ function canvasApp() {
 
   }
 
-  var world = {
-    //pixels per second
-    startTime: Date.now(),
-    speed: 50,
-    startX: width / 2,
-    startY: height *.9,
-    originX: 0,
-    originY: 0,
-    xDist: 0,
-    yDist: 0,
-    rotationSpeed: height*20,
-    angle: 0,
-    distance: 0,
-    calcOrigins: function () {
-      world.originX = -world.distance * Math.sin(world.angle * Math.PI / 180);
-      world.originY = -world.distance * Math.cos(world.angle * Math.PI / 180);
-    }
-  };
-
   var gameOver = function () {
     game.gameOver = true;
     rocket.speed = 0;
@@ -349,7 +333,6 @@ function canvasApp() {
 
         if (rocket.xLoc > rocket.xMin) {
           rocket.xLoc -= rocket.turningSpeed * (Math.abs(gamma) / 30) * modifier;
-          //avg
           rocket.angle = rocket.minAngle * (Math.abs(gamma) / 30);
           rocket.targetAngle = rocket.angle;
         }
@@ -440,9 +423,9 @@ function canvasApp() {
 
 
   var render = function (modifier) {
-    context.clearRect(0 - width / 2, rocket.yLoc - height / 2, width, height);
+    context.clearRect(0 - width / 2, rocket.yLoc - height / 2 - rocket.yOffset, width, height);
     context.fillStyle = "black";
-    context.fillRect(0 - width / 2, rocket.yLoc - height / 2, width, height);
+    context.fillRect(0 - width / 2, rocket.yLoc - height / 2 - rocket.yOffset, width, height);
     context.fillStyle = "#6bf94f";
     context.font = "40px Arial";
     var scoreString = rocket.score.toString();
@@ -454,6 +437,7 @@ function canvasApp() {
       var dY = (rocket.speed * modifier);
       //rocket.xLoc += dX;
       rocket.yLoc -= dY;
+      rocket.yPoint -= dY; //new 1103
       window.yMax -= dY;
       window.yMin -= dY;
       //console.log("potential crash");
