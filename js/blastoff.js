@@ -298,7 +298,7 @@ function canvasApp() {
     startTime: Date.now(),
     speed: 50,
     startX: width / 2,
-    startY: height / 2,
+    startY: height *.9,
     originX: 0,
     originY: 0,
     xDist: 0,
@@ -348,9 +348,9 @@ function canvasApp() {
       if (gamma < 0){
 
         if (rocket.xLoc > rocket.xMin) {
-          rocket.xLoc -= rocket.turningSpeed * (Math.abs(gamma) / 50) * modifier;
+          rocket.xLoc -= rocket.turningSpeed * (Math.abs(gamma) / 30) * modifier;
           //avg
-          rocket.angle = rocket.minAngle * (Math.abs(gamma) / 50);
+          rocket.angle = rocket.minAngle * (Math.abs(gamma) / 30);
           rocket.targetAngle = rocket.angle;
         }
         else {
@@ -361,8 +361,8 @@ function canvasApp() {
       }
       else if (gamma > 0){
         if (rocket.xLoc < rocket.xMax) {
-          rocket.xLoc += rocket.turningSpeed * (Math.abs(gamma) / 50) * modifier;
-          rocket.angle = rocket.maxAngle * (Math.abs(gamma) / 50);
+          rocket.xLoc += rocket.turningSpeed * (Math.abs(gamma) / 30) * modifier;
+          rocket.angle = rocket.maxAngle * (Math.abs(gamma) / 30);
           rocket.targetAngle = rocket.angle;
         }
         else {
@@ -537,7 +537,7 @@ function canvasApp() {
 
   //from moz -- todo check that they're using a smart phone
   function handleOrientation(event) {
-    gamma = event.gamma;
+    gamma = (gamma + 2*event.gamma)/3;
   }
 
   window.addEventListener('deviceorientation', handleOrientation);
