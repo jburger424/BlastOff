@@ -108,7 +108,7 @@ body{
 }
 
 div#score_health {
-    margin-left: 29%;
+    margin-left: 29.6%;
     width: 20%;
     display: inline-block;
 }
@@ -152,9 +152,6 @@ meter::-webkit-meter-optimum-value, meter::-webkit-meter-suboptimum-value, meter
     -ms-user-select: none; /* Internet Explorer/Edge */
     user-select: none; /* Non-prefixed version, currently
                                   not supported by any browser */
-}
-#controls{
-    height: 100px;
 }
 
 

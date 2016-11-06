@@ -13,8 +13,9 @@ function canvasApp() {
     return;
   }
   var canvas = document.getElementById("myCanvas");
+  var headHeight = document.getElementById("head").clientHeight + 10;
   canvas.width = document.body.clientWidth; //document.width is obsolete
-  canvas.height = window.innerHeight - 125; //125 is header height
+  canvas.height = window.innerHeight - headHeight; //125 is header height
   console.log("w: "+canvas.width + " h: "+canvas.height);
   if(canvas.width > canvas.height){
     canvas.width = canvas.height;
