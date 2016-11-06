@@ -16,9 +16,21 @@
 <body>
       <div id="head">
         <h2>Blast Off!</h2>
-        <div>
-          <span id="pause">&#9208;</span>
-          <span id="help_button">?</span>
+        <div id="controls">
+          <div id="pause_help" class="noselect">
+            <span id="pause">&#9208;</span>
+             |
+            <span id="help_button">?</span>
+          </div>
+          <div id="score_health">
+
+            <div id="score">
+              0
+            </div>
+            <meter id="health" max=10 min=0.0 value=10 high=8 low=3 optimum=9></meter>
+          </div>
+
+
         </div>
       </div>
 
@@ -48,10 +60,13 @@
         </div>
 
         <!-- Canvas -->
+      <div>
         <canvas id="myCanvas">
-            Your browser doesn't support Canvas.
-        </canvas>    
+          Your browser doesn't support Canvas.
+        </canvas>
         <!-- ^ End Canvas -->
+      </div>
+
 
 </body>
 </html>

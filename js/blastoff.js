@@ -19,6 +19,7 @@ function canvasApp() {
   if(canvas.width > canvas.height){
     canvas.width = canvas.height;
   }
+  document.getElementById("head").style.width = canvas.width+"px";
   console.log("w: "+canvas.width + " h: "+canvas.height);
   var height = canvas.height; //get the heigth of the canvas
   var width = canvas.width;  //get the width of the canvas
@@ -42,7 +43,8 @@ function canvasApp() {
     xPoint: 0,
     yPoint: 100,
     score: 0,
-    health: 6, //was 10 TODO
+    startHealth:10,
+    health: 10, //was 10 TODO
     speed: 2/3 * height, //400,
     maxSpeed: 800, //todo fix
     turningSpeed: width, //600,
@@ -187,6 +189,12 @@ function canvasApp() {
   };
 
   var detectStarCollision = function () {
+    var pixel = context.getImageData( rocket.xLoc, rocket.yPoint, 5, 5).data;
+    for(var x = 0; x < 6*6*4; x+=4){
+        var rgb = pixel[x]+", "+pixel[x + 1]+", "+pixel[x + 2];
+      if(rgb != "0, 0, 0")
+        console.log(rgb);
+    }
     for (var i = 0; i < stars.length; i++) {
       if (!stars[i].hasCollided && rocket.xLoc <= stars[i].xLoc + stars[i].radius && rocket.xLoc >= stars[i].xLoc - stars[i].radius
           && rocket.yLoc <= stars[i].yLoc + stars[i].radius && rocket.yLoc >= stars[i].yLoc - stars[i].radius) {
@@ -315,7 +323,7 @@ function canvasApp() {
 
   var update = function (modifier) {
     var roundedAngle = Math.round(rocket.angle * 1000) / 1000;
-    console.log(roundedAngle);
+    //console.log(roundedAngle);
     if (rocket.health < 1 && !game.gameOver) {
       gameOver();
     }
@@ -324,7 +332,7 @@ function canvasApp() {
       restart();
     }
     if (!game.gameOver) {
-      rocket.lastTargetAngle = rocket.targetAngle;
+      //rocket.lastTargetAngle = rocket.targetAngle;
       detectStarCollision();
       game.time = Date.now() - game.startTime;
       if (rocket.speed < rocket.maxSpeed) rocket.speed = 350 + 450 * (game.time / 200000);
@@ -417,7 +425,7 @@ function canvasApp() {
     game.startTime = Date.now();
     stars = [];
     rocket.score = 0;
-    rocket.health = 6;   //was 10, just for testing TODO
+    rocket.health = rocket.startHealth;
     main();
   };
 
@@ -429,10 +437,15 @@ function canvasApp() {
     context.fillStyle = "#6bf94f";
     context.font = "40px Arial";
     var scoreString = rocket.score.toString();
-    context.fillText(scoreString, 220, rocket.yLoc - 250); //write score
+    //context.fillText(scoreString, 220, rocket.yLoc - 250); //write score
+    document.getElementById("score").innerHTML = scoreString;
+
+    document.getElementById("health").setAttribute("value",rocket.health);
+
+
     var healthString = rocket.health.toString();
     context.fillStyle = "red";
-    context.fillText(healthString, -220, rocket.yLoc - 250); //write score
+    //context.fillText(healthString, -220, rocket.yLoc - 250); //write score
     if (!game.gameOver) {
       var dY = (rocket.speed * modifier);
       //rocket.xLoc += dX;
@@ -482,7 +495,7 @@ function canvasApp() {
 
   function pause(){
     game.isPaused = true;
-    document.getElementById("pause").innerHTML = "&#9654;";
+    document.getElementById("pause").innerHTML = "&#9658;";
   }
   function resume(){
     then = Date.now();
