@@ -110,21 +110,36 @@ body, html{
 }
 #head{ /*todo autoset width*/
     margin: 0 auto;
+    margin-bottom: 10px;
 }
 
 div#score_health {
-    margin-left: 25%;
-    width: 20%;
+    margin-left: 0%;
+    width: 45%;
     display: inline-block;
 }
 
 div#score {
     text-align: center;
+    font-size: 31px;
+    display: inline-block;
+    background: url('http://pngimg.com/upload/star_PNG1597.png');
+    background-size: inherit;
+    /* background-repeat: no-repeat; */
+    background-position-x: 50%;
+    background-position-y: 55%;
+    height: 100%;
+    width: 20%;
+    color: #3e5a1c;
+    border-radius: 50%;
 }
 
 #health {
     transition: all 300ms;
-    width: 100%;
+    height: 1.5em;
+    width: 57%;
+    display: inline-block;
+    margin-left: 21%;
 }
 meter::-webkit-meter-optimum-value, meter::-webkit-meter-suboptimum-value, meter::-webkit-meter-even-less-good-value {
     transition: all 300ms;
@@ -132,18 +147,22 @@ meter::-webkit-meter-optimum-value, meter::-webkit-meter-suboptimum-value, meter
 
 
 #pause_help{
-    font-size: 32px;
-    height: 30px;
-    line-height: 30px;
+    font-size: 40px;
+    height: 0em;
+    line-height: 1.2em;
     display: inline-block;
     width: 50%;
+    height: auto;
 }
 #pause_help span{
     cursor: pointer;
-    color: grey;
-    width: 30px;
+    color: whitesmoke;
+    width: 1em;
     text-align: center;
+    background: #1f1f65;
     display: inline-block;
+    border-radius: 10%;
+    border: 2px #ff3400 solid;
 }
 #pause_help span:hover{
     color: #202020;
@@ -209,6 +228,11 @@ div#action_modal {
     font-size: 30px;
     color: #434343;
 }
+
+@media only screen and (max-width : 768px) {
+
+}
+
 
 
 
