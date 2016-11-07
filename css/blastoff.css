@@ -9,6 +9,7 @@
 @import url(http://fonts.googleapis.com/css?family=Oswald);
 @import url(http://fonts.googleapis.com/css?family=Lato);
 
+
 /* -------------------------------------------------------------- */
 /* Text Styles */
 
@@ -63,6 +64,7 @@ div#help_modal {
     left: 0;
     right: 0;
     margin: 0 auto;
+    background: whitesmoke;
 }
 
 .hidden{
@@ -76,6 +78,10 @@ span#close_help {
     font-size: 24px;
     transform: scaleY(.9);
     color: grey;
+    cursor: pointer;
+}
+span#close_help:hover{
+    color: black;
 }
 .star{
     display: inline-block;
@@ -99,6 +105,7 @@ span#close_help {
 body, html{
     margin: 0px;
     overflow: hidden;
+    background-color: grey;
 }
 
 .float-left{
