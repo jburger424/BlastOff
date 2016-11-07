@@ -13,7 +13,7 @@ function canvasApp() {
     return;
   }
   var canvas = document.getElementById("myCanvas");
-  var headHeight = document.getElementById("head").clientHeight + 10;
+  var headHeight = document.getElementById("head").clientHeight + 30;
   canvas.width = document.body.clientWidth; //document.width is obsolete
   canvas.height = window.innerHeight - headHeight; //125 is header height
   console.log("w: "+canvas.width + " h: "+canvas.height);
@@ -44,8 +44,8 @@ function canvasApp() {
     xPoint: 0,
     yPoint: 100,
     score: 0,
-    startHealth:10,
-    health: 10, //was 10 TODO
+    startHealth: 3,//TODO 10,
+    health: 3, //was 10 TODO
     speed: 2/3 * height, //400,
     maxSpeed: 800, //todo fix
     turningSpeed: width, //600,
@@ -417,6 +417,7 @@ function canvasApp() {
 
   var restart = function () {
     //console.log("restarting");
+    document.getElementById("action_modal").setAttribute("class","hidden_modal");
     then = Date.now();
     rocket.speed = 400;
     rocket.maxSpeed = 800;
@@ -427,6 +428,7 @@ function canvasApp() {
     stars = [];
     rocket.score = 0;
     rocket.health = rocket.startHealth;
+    resume();
     main();
   };
 
@@ -468,11 +470,14 @@ function canvasApp() {
     drawRocket(110);
 
     if (game.gameOver) {
+      pause();
       context.fillStyle = "white";
       context.fillRect(0 - width / 2, rocket.yLoc - height / 3, width, height / 4);
       context.font = "50PX Arial";
       context.fillStyle = "black";
       context.fillText("Game Over, type r to restart", 0 - width / 2, rocket.yLoc - height / 3 + 70, width);
+      document.getElementById("action_modal").setAttribute("class","");
+
     }
 
 
@@ -522,6 +527,11 @@ function canvasApp() {
     else{
       resume();
     }
+  };
+
+  document.getElementById("action_modal").onclick = function() {
+    //pause
+    restart();
   };
 ///todo have modal show up at start if user has never played
   //show help

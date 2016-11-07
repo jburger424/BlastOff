@@ -16,7 +16,6 @@
 * {
     font-family: 'Oswald', sans-serif; /* default font - change this */
     color: #665544; /* default color -- change this */
-    background-color: #ffffff; /* D5E1A3  default color -- change this */
 }
 
 /* Use the Lato font pairing for all the headers */
@@ -47,6 +46,9 @@ h1, h2, h3, h4, h5, h6 {
     margin-right: auto;
     display: block;
     height: 100%;
+    -webkit-border-radius: 4%;
+    -moz-border-radius: 4%;
+    border-radius: 4%;
 }
 
 div#help_modal {
@@ -108,7 +110,7 @@ body{
 }
 
 div#score_health {
-    margin-left: 29.6%;
+    margin-left: 25%;
     width: 20%;
     display: inline-block;
 }
@@ -152,6 +154,57 @@ meter::-webkit-meter-optimum-value, meter::-webkit-meter-suboptimum-value, meter
     -ms-user-select: none; /* Internet Explorer/Edge */
     user-select: none; /* Non-prefixed version, currently
                                   not supported by any browser */
+}
+
+div#action_modal {
+    text-align: center;
+    border: 3px solid #777777;
+    width: 200px;
+    background: #c3c3c3;
+    height: 200px;
+    position: absolute;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: auto;
+    color: white;
+    cursor: pointer;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    transition: transform 1s, opacity 1s;
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+}
+#action_modal.hidden_modal{
+    transform: scale(.1) rotate(360deg);
+    opacity: 0;;
+}
+#action_modal div#button {
+    background: green;
+    /* width: 50px; */
+    /* text-align: center; */
+    /* display: inline-block; */
+    /* border-radius: 50%; */
+    height: 50px;
+    line-height: 50px;
+    color: white;
+    font-size: 32px;
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    transition: all 200ms;
+}
+#action_modal:hover div#button{
+    height: 60px;
+}
+#action_modal div#text {
+    transform: translateY(50%);
+    position: absolute;
+    width: 100%;
+    bottom: 50%;
+    font-size: 30px;
+    color: #434343;
 }
 
 
