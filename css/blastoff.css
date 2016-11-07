@@ -36,6 +36,8 @@ h1, h2, h3, h4, h5, h6 {
 
 
 
+
+
 /* -------------------------------------------------------------- */
 /* Canvas Styles */
 
@@ -94,8 +96,9 @@ span#close_help {
     display: inline-block;
     width: 30%;
 }
-body{
+body, html{
     margin: 0px;
+    overflow: hidden;
 }
 
 .float-left{

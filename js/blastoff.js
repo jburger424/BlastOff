@@ -190,15 +190,13 @@ function canvasApp() {
   };
 
   var detectStarCollision = function () {
-    var pixel = context.getImageData( rocket.xLoc, rocket.yPoint, 5, 5).data;
-    for(var x = 0; x < 6*6*4; x+=4){
-        var rgb = pixel[x]+", "+pixel[x + 1]+", "+pixel[x + 2];
-      if(rgb != "0, 0, 0")
-        console.log(rgb);
-    }
     for (var i = 0; i < stars.length; i++) {
-      if (!stars[i].hasCollided && rocket.xLoc <= stars[i].xLoc + stars[i].radius && rocket.xLoc >= stars[i].xLoc - stars[i].radius
-          && rocket.yLoc <= stars[i].yLoc + stars[i].radius && rocket.yLoc >= stars[i].yLoc - stars[i].radius) {
+      if (!stars[i].hasCollided &&
+          rocket.yLoc >= stars[i].yLoc - stars[i].radius &&
+          rocket.yLoc <= stars[i].yLoc + stars[i].radius &&
+          rocket.xLoc <= stars[i].xLoc + stars[i].radius &&
+          rocket.xLoc >= stars[i].xLoc - stars[i].radius
+          ) {
         stars[i].hasCollided = true;
         if (stars[i].isRed) rocket.health -= stars[i].value;
         else rocket.score += stars[i].value;
@@ -323,7 +321,6 @@ function canvasApp() {
   }, false);
 
   var update = function (modifier) {
-    var roundedAngle = Math.round(rocket.angle * 1000) / 1000;
     //console.log(roundedAngle);
     if (rocket.health < 1 && !game.gameOver) {
       gameOver();
@@ -428,8 +425,11 @@ function canvasApp() {
     stars = [];
     rocket.score = 0;
     rocket.health = rocket.startHealth;
-    resume();
-    main();
+    setTimeout(function () {
+      resume();
+      main();
+    }, 1000);
+
   };
 
 
@@ -471,11 +471,6 @@ function canvasApp() {
 
     if (game.gameOver) {
       pause();
-      context.fillStyle = "white";
-      context.fillRect(0 - width / 2, rocket.yLoc - height / 3, width, height / 4);
-      context.font = "50PX Arial";
-      context.fillStyle = "black";
-      context.fillText("Game Over, type r to restart", 0 - width / 2, rocket.yLoc - height / 3 + 70, width);
       document.getElementById("action_modal").setAttribute("class","");
 
     }
@@ -547,8 +542,11 @@ function canvasApp() {
   function handleOrientation(event) {
     gamma = (gamma + 2*event.gamma)/3;
   }
+  //from http://stackoverflow.com/questions/3514784/what-is-the-best-way-to-detect-a-mobile-device-in-jquery
+  if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+    window.addEventListener('deviceorientation', handleOrientation);
+  }
 
-  window.addEventListener('deviceorientation', handleOrientation);
 
   // the game loop
 
