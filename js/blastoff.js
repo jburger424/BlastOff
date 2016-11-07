@@ -108,6 +108,8 @@ function canvasApp() {
 
     this.hasCollided = false;
 
+    this.createTime = game.time;
+
     //anything else that shouldn't happen?
 
       this.draw = function () {
@@ -124,44 +126,47 @@ function canvasApp() {
     if (typeof stars !== 'undefined') {
       //console.log("working");
       for (var i = 0; i < stars.length; i++) {
-        if (stars[i].hasCollided) {
-          /*TODO stupid code fix redundancy*/
-          if (stars[i].isRed) {
-            context.save();
-            context.fillStyle = "white";//"rgb(255,162,162)";
-            context.strokeStyle = "red";
-            stars[i].draw();
-            context.lineWidth = 4;
-            context.stroke();
-            context.restore();
-            context.strokeStyle = "rgb(80,80,80)";
-            context.lineWidth = 1;
-            context.fillStyle = "red";
-            context.font = "30px Arial";
-            context.fillText("-" + stars[i].value + "H", stars[i].xLoc, stars[i].yLoc);
-            context.strokeText("-" + stars[i].value + "H", stars[i].xLoc, stars[i].yLoc);
+        if(stars[i].createTime > 4000){
+          if (stars[i].hasCollided) {
+            /*TODO stupid code fix redundancy*/
+            if (stars[i].isRed) {
+              context.save();
+              context.fillStyle = "white";//"rgb(255,162,162)";
+              context.strokeStyle = "red";
+              stars[i].draw();
+              context.lineWidth = 4;
+              context.stroke();
+              context.restore();
+              context.strokeStyle = "rgb(80,80,80)";
+              context.lineWidth = 1;
+              context.fillStyle = "red";
+              context.font = "30px Arial";
+              context.fillText("-" + stars[i].value + "H", stars[i].xLoc, stars[i].yLoc);
+              context.strokeText("-" + stars[i].value + "H", stars[i].xLoc, stars[i].yLoc);
+            }
+            else {
+              context.save();
+              context.fillStyle = "white"//"rgb(255,162,162)";
+              context.strokeStyle = "yellow";
+              stars[i].draw();
+              context.lineWidth = 4;
+              context.stroke();
+              context.restore();
+              context.strokeStyle = "rgb(80,80,80)";
+              context.lineWidth = 1;
+              context.fillStyle = "#6bf94f";
+              context.font = "30px Arial";
+              context.fillText("+" + stars[i].value, stars[i].xLoc, stars[i].yLoc);
+              context.strokeText("+" + stars[i].value, stars[i].xLoc, stars[i].yLoc);
+            };
+
           }
           else {
-            context.save();
-            context.fillStyle = "white"//"rgb(255,162,162)";
-            context.strokeStyle = "yellow";
+            if (stars[i].isRed) context.fillStyle = "red";
+            else context.fillStyle = "yellow";
             stars[i].draw();
-            context.lineWidth = 4;
-            context.stroke();
-            context.restore();
-            context.strokeStyle = "rgb(80,80,80)";
-            context.lineWidth = 1;
-            context.fillStyle = "#6bf94f";
-            context.font = "30px Arial";
-            context.fillText("+" + stars[i].value, stars[i].xLoc, stars[i].yLoc);
-            context.strokeText("+" + stars[i].value, stars[i].xLoc, stars[i].yLoc);
-          };
+          }
 
-        }
-        else {
-          if (stars[i].isRed) context.fillStyle = "red";
-          else context.fillStyle = "yellow";
-          stars[i].draw();
         }
 
       }
@@ -175,18 +180,20 @@ function canvasApp() {
   };
 
   var updateStars = function () {
-    var numStars = 50;
-    while (stars.length < numStars) {
-      stars[stars.length] = new Star();
-    }
-    for (var i = 0; i < stars.length; i++) {
-      if (i == 0) {
-        //console.log(tempDist);
+    //wait an extra half second
+      var numStars = 50;
+      while (stars.length < numStars) {
+        stars[stars.length] = new Star();
       }
-      if (stars[i].yLoc > rocket.yLoc + height * 2 / 3) {
-        stars[i] = new Star();
+      for (var i = 0; i < stars.length; i++) {
+        if (i == 0) {
+          //console.log(tempDist);
+        }
+        if (stars[i].yLoc > rocket.yLoc + height * 2 / 3) {
+          stars[i] = new Star();
+        }
       }
-    }
+
   };
 
   var detectStarCollision = function () {
@@ -436,37 +443,34 @@ function canvasApp() {
   var render = function (modifier) {
     context.clearRect(0 - width / 2, rocket.yLoc - height / 2 - rocket.yOffset, width, height);
     context.fillStyle = "black";
+    //draw background
     context.fillRect(0 - width / 2, rocket.yLoc - height / 2 - rocket.yOffset, width, height);
-    context.fillStyle = "#6bf94f";
-    context.font = "40px Arial";
-    var scoreString = rocket.score.toString();
-    //context.fillText(scoreString, 220, rocket.yLoc - 250); //write score
-    document.getElementById("score").innerHTML = scoreString;
-
-    document.getElementById("health").setAttribute("value",rocket.health);
-
-
-    var healthString = rocket.health.toString();
-    context.fillStyle = "red";
-    //context.fillText(healthString, -220, rocket.yLoc - 250); //write score
+    document.getElementById("score").innerHTML = rocket.score.toString();
+    document.getElementById("health").setAttribute("value",rocket.health.toString());
     if (!game.gameOver) {
       var dY = (rocket.speed * modifier);
       //rocket.xLoc += dX;
       rocket.yLoc -= dY;
-      rocket.yPoint -= dY; //new 1103
+      rocket.yPoint -= dY;
       window.yMax -= dY;
       window.yMin -= dY;
-      //console.log("potential crash");
       updateStars();
     }
-    drawStars();
+      drawStars();
+
+    context.strokeStyle = "rgb(80,80,80)";
+    context.lineWidth = 1;
+    context.fillStyle = "#6bf94f";
+    context.font = "80px Arial";
+    context.fillText("1", 0, -rocket.speed - 80);
+    context.fillText("2", 0, (-rocket.speed - 80)*2);
+    context.fillText("3", 0, (-rocket.speed-80)*3);
+
+
+
     context.restore();
     context.translate(0, dY);
-    //context.save();
-    //context.translate(-rocket.pointX,-rocket.pointY);
 
-
-    //context.translate(rocket.pointX,rocket.pointY);
     drawRocket(110);
 
     if (game.gameOver) {
@@ -479,6 +483,7 @@ function canvasApp() {
   };
 
   var drawStar = function (x, y, r, p, m, angle) {
+    //console.log("y val: "+y);
     context.save();
     context.beginPath();
     context.translate(x, y);
