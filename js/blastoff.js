@@ -622,14 +622,29 @@ function canvasApp() {
 
   if (document.cookie.indexOf("visited") != -1) {
     main();
-    console.log("hide help");
     hideHelp();
   } else {
-    document.cookie = "visited=true";
-    console.log("shhow help");
+    document.cookie = "visited";
     main();
     showHelp();
   }
+
+  var noSleep = new NoSleep();
+
+  function enableNoSleep() {
+    noSleep.enable();
+    document.removeEventListener('touchstart', enableNoSleep, false);
+  }
+
+// Enable wake lock.
+// (must be wrapped in a user input event handler e.g. a mouse or touch handler)
+  document.addEventListener('touchstart', enableNoSleep, false);
+
+// ...
+
+// Disable wake lock at some point in the future.
+// (does not need to be wrapped in any user input event handler)
+  //noSleep.disable();
 
 
 
