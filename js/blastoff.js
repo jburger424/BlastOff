@@ -616,18 +616,11 @@ function canvasApp() {
       then = now;
     }
 
-    requestAnimationFrame(main);
+    window.requestAnimationFrame(main);
   }
 
   var w = window;
   var requestAnimationFrame = w.requestAnimationFrame || w.webkitRequestAnimationFrame || w.msRequestAnimationFrame || w.mozRequestAnimationFrame;
   //puts coordinate system in middle
   context.translate(canvasWidth / 2, canvasHeight / 2);
-
-
-
-
-
-
-
 }
