@@ -558,15 +558,7 @@ function canvasApp() {
 // (must be wrapped in a user input event handler e.g. a mouse or touch handler)
     document.addEventListener('touchstart', enableNoSleep, false);
   }
-//places a cookie on local storage, if user has never visited will always show help at start
-  if (document.cookie.indexOf("visited") != -1) {
-    main();
-    hideHelp();
-  } else {
-    document.cookie = "visited";
-    main();
-    showHelp();
-  }
+
   /*end listeners*/
 
 
@@ -603,6 +595,16 @@ function canvasApp() {
 
   // the game loop
 
+
+  //places a cookie on local storage, if user has never visited will always show help at start
+  if (document.cookie.indexOf("visited") != -1) {
+    main();
+    hideHelp();
+  } else {
+    document.cookie = "visited";
+    main();
+    showHelp();
+  }
 
   function main() {
     //console.log("in main");
