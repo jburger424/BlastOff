@@ -33,6 +33,13 @@ function canvasApp() {
   var timerLocs = [];
   var timerStrings = ["3", "2", "1", "GO!"];
 
+  var restartModal = document.getElementById("restart_modal");
+  var pauseButton = document.getElementById("pause");
+  var helpButton = document.getElementById("help_button");
+  var closeHelpButton = document.getElementById("close_help");
+  var helpModal = document.getElementById("help_modal");
+
+
 
   var game = {
     gameOver: false,
@@ -69,6 +76,15 @@ function canvasApp() {
     xMin: -2 * canvasWidth / 5,
     xMax: 2 * canvasWidth / 5
   };
+
+  //modified from http://stackoverflow.com/questions/3514784/what-is-the-best-way-to-detect-a-mobile-device-in-jquery
+  //checks if user is on mobile by browser type
+  game.onMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+  //will calculate correct y location for timer chars
+  for (var i = 0; i < 4; i++) {
+    timerLocs.push((rocket.startSpeed + 80) * (i + 1));
+  }
 
 
   function Star() {
@@ -311,22 +327,7 @@ function canvasApp() {
 
 
 
-  var keysDown = {};
 
-  addEventListener("keydown", function (e) {
-    keysDown[e.keyCode] = true;
-    //special case needed for space bar because once game is paused, game loop isn't running
-    if (e.keyCode == 32) {
-      if (!game.isPaused)
-        pause();
-      else
-        resume();
-    }
-  }, false);
-
-  addEventListener("keyup", function (e) {
-    delete keysDown[e.keyCode];
-  }, false);
 
   var update = function (modifier) {
     //console.log(roundedAngle);
@@ -448,7 +449,7 @@ function canvasApp() {
   };
 //resets neccesary values
   var restart = function () {
-    document.getElementById("restart_modal").setAttribute("class", "hidden_modal");
+    restartModal.setAttribute("class", "hidden_modal");
     then = Date.now();
     rocket.speed = 400;
     rocket.maxSpeed = 800;
@@ -470,7 +471,7 @@ function canvasApp() {
   };
 
 
-//responsible for calling functions to render frame
+//responsible for calling functions to render frame and keeping score and health up to date
   var render = function (modifier) {
     context.clearRect(0 - canvasWidth / 2, rocket.yLoc - canvasHeight / 2 - rocket.yOffset, canvasWidth, canvasHeight);
     context.fillStyle = "black";
@@ -486,6 +487,7 @@ function canvasApp() {
       updateStars();
     }
     drawStars();
+    //only draw countdown when it would be on the screen
     if (!game.countComplete) {
       drawCountdown();
     }
@@ -497,35 +499,35 @@ function canvasApp() {
 
     if (game.gameOver) {
       pause();
-      document.getElementById("restart_modal").setAttribute("class", "");
+      restartModal.setAttribute("class", "");
 
     }
 
   };
 
 
-  function pause() {
-    game.isPaused = true;
-    document.getElementById("pause").innerHTML = "&#9658;";
-  }
 
-  function resume() {
-    then = Date.now();
-    game.isPaused = false;
-    document.getElementById("pause").innerHTML = "&#9208;";
-  }
 
-  function showHelp() {
-    document.getElementById("help_modal").className = "";
-    pause();
-  }
 
-  function hideHelp() {
-    document.getElementById("help_modal").className = "hidden";
-    resume();
-  }
+  /*begin listeners*/
+  var keysDown = {};
+  //will keep current keys down in array*/
+  addEventListener("keydown", function (e) {
+    keysDown[e.keyCode] = true;
+    //special case needed for space bar because once game is paused, game loop isn't running
+    if (e.keyCode == 32) {
+      if (!game.isPaused)
+        pause();
+      else
+        resume();
+    }
+  }, false);
 
-  document.getElementById("pause").onclick = function () {
+  addEventListener("keyup", function (e) {
+    delete keysDown[e.keyCode];
+  }, false);
+
+  pauseButton.onclick = function () {
     //pause
     if (!game.isPaused) {
       pause();
@@ -536,69 +538,19 @@ function canvasApp() {
     }
   };
 
-  document.getElementById("restart_modal").onclick = function () {
+  restartModal.onclick = function () {
     restart();
   };
 
-  document.getElementById("help_button").onclick = function () {
+  helpButton.onclick = function () {
     showHelp();
   };
 
-  document.getElementById("close_help").onclick = function () {
+  closeHelpButton.onclick = function () {
     hideHelp();
   };
-
-
-  //from moz
-  //will be 2/3 current + 1/3 past gamma, smoother movement
-  function handleOrientation(event) {
-    gamma = (gamma + 2 * event.gamma) / 3;
-  }
-
-  //from http://stackoverflow.com/questions/3514784/what-is-the-best-way-to-detect-a-mobile-device-in-jquery
-  //only add the tilt listener if on mobile
-  if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+  if(game.onMobile)
     window.addEventListener('deviceorientation', handleOrientation);
-    game.onMobile = true;
-  }
-
-
-  // the game loop
-
-
-  function main() {
-    //console.log("in main");
-    if (!game.isPaused) {
-      var now = Date.now();
-      var delta = now - then;
-      //console.log("calling update");
-      update(delta / 1000);
-      //console.log("calling render");
-      render(delta / 1000);
-      then = now;
-    }
-
-    requestAnimationFrame(main);
-  }
-
-  var w = window;
-  var requestAnimationFrame = w.requestAnimationFrame || w.webkitRequestAnimationFrame || w.msRequestAnimationFrame || w.mozRequestAnimationFrame;
-  context.translate(canvasWidth / 2, canvasHeight / 2);
-
-
-  //will calculate correct y location for timer chars
-  for (var i = 0; i < 4; i++) {
-    timerLocs.push((rocket.startSpeed + 80) * (i + 1));
-  }
-
-  if (document.cookie.indexOf("visited") != -1) {
-    main();
-    hideHelp();
-  } else {
-    document.cookie = "visited";
-    main();
-    showHelp();
-  }
 
   if (game.onMobile) {
     var noSleep = new NoSleep();
@@ -612,5 +564,74 @@ function canvasApp() {
 // (must be wrapped in a user input event handler e.g. a mouse or touch handler)
     document.addEventListener('touchstart', enableNoSleep, false);
   }
+//places a cookie on local storage, if user has never visited will always show help at start
+  if (document.cookie.indexOf("visited") != -1) {
+    main();
+    hideHelp();
+  } else {
+    document.cookie = "visited";
+    main();
+    showHelp();
+  }
+  /*end listeners*/
+
+
+/*begin listener helper functions*/
+  //from moz
+  //will be 2/3 current + 1/3 past gamma, smoother movement
+  function handleOrientation(event) {
+    gamma = (gamma + 2 * event.gamma) / 3;
+  }
+
+  function pause() {
+    game.isPaused = true;
+    pauseButton.innerHTML = "&#9658;";
+  }
+
+  function resume() {
+    then = Date.now();
+    game.isPaused = false;
+    pauseButton.innerHTML = "&#9208;";
+  }
+
+  function showHelp() {
+    helpModal.className = "";
+    pause();
+  }
+
+  function hideHelp() {
+    helpModal.className = "hidden";
+    resume();
+  }
+  /*end listener helper functions*/
+
+
+
+  // the game loop
+
+
+  function main() {
+    //console.log("in main");
+    if (!game.isPaused) {
+      var now = Date.now();
+      var delta = now - then;
+      update(delta / 1000);
+      render(delta / 1000);
+      then = now;
+    }
+
+    requestAnimationFrame(main);
+  }
+
+  var w = window;
+  var requestAnimationFrame = w.requestAnimationFrame || w.webkitRequestAnimationFrame || w.msRequestAnimationFrame || w.mozRequestAnimationFrame;
+  //puts coordinate system in middle
+  context.translate(canvasWidth / 2, canvasHeight / 2);
+
+
+
+
+
+
 
 }
