@@ -16,18 +16,18 @@ function canvasApp() {
   var headHeight = document.getElementById("head").clientHeight + 30;
   canvas.width = document.body.clientWidth; //document.width is obsolete
   canvas.height = window.innerHeight - headHeight; //125 is header height
-  console.log("w: "+canvas.width + " h: "+canvas.height);
   if(canvas.width > canvas.height){
     canvas.width = canvas.height;
   }
   document.getElementById("head").style.width = canvas.width+"px";
-  console.log("w: "+canvas.width + " h: "+canvas.height);
   var height = canvas.height; //get the heigth of the canvas
   var width = canvas.width;  //get the width of the canvas
   var context = canvas.getContext("2d");  //get the context
   var then = Date.now();
   var stars = [];
   var gamma = 0;
+  var timerLocs = [];
+  var timerStrings = ["3","2","1","GO!"];
 
 
 
@@ -35,7 +35,9 @@ function canvasApp() {
     gameOver: false,
     time: 0,
     startTime: Date.now(),
-    isPaused: false
+    isPaused: false,
+    yOrig: 0,
+    countComplete: false
   };
   var rocket = {
     yOffset: 100,
@@ -47,6 +49,7 @@ function canvasApp() {
     startHealth: 3,//TODO 10,
     health: 3, //was 10 TODO
     speed: 2/3 * height, //400,
+    startSpeed: 2/3 * height,
     maxSpeed: 800, //todo fix
     turningSpeed: width, //600,
     minAngle: -.3,
@@ -70,7 +73,7 @@ function canvasApp() {
     //10% of stars will be red
     this.isRed = Math.random() < .1;
     this.randNum = Math.random();
-    //determines star value
+    //determines star size/value
     if (this.randNum > .5) {
       this.value = 1;
     }
@@ -126,7 +129,7 @@ function canvasApp() {
     if (typeof stars !== 'undefined') {
       //console.log("working");
       for (var i = 0; i < stars.length; i++) {
-        if(stars[i].createTime > 4000){
+        if(game.countComplete){
           if (stars[i].hasCollided) {
             /*TODO stupid code fix redundancy*/
             if (stars[i].isRed) {
@@ -158,7 +161,7 @@ function canvasApp() {
               context.font = "30px Arial";
               context.fillText("+" + stars[i].value, stars[i].xLoc, stars[i].yLoc);
               context.strokeText("+" + stars[i].value, stars[i].xLoc, stars[i].yLoc);
-            };
+            }
 
           }
           else {
@@ -167,6 +170,11 @@ function canvasApp() {
             stars[i].draw();
           }
 
+        }
+        else{
+          if (stars[i].isRed) context.fillStyle = "rgba(255,0,0,.3)";
+          else context.fillStyle = "rgba(255,255,0,.3)";
+          stars[i].draw();
         }
 
       }
@@ -178,7 +186,7 @@ function canvasApp() {
   var getDistance = function (x1, y1, x2, y2) {
     return Math.sqrt(Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2));
   };
-
+//TODO keyboard pause
   var updateStars = function () {
     //wait an extra half second
       var numStars = 50;
@@ -337,11 +345,14 @@ function canvasApp() {
       restart();
     }
     if (!game.gameOver) {
-      //rocket.lastTargetAngle = rocket.targetAngle;
-      detectStarCollision();
+      //don't count collisions prior to the timer being finished
+      if(game.countComplete){
+        detectStarCollision();
+      }
+
       game.time = Date.now() - game.startTime;
       if (rocket.speed < rocket.maxSpeed) rocket.speed = 350 + 450 * (game.time / 200000);
-
+      //check if user tilting device left
       if (gamma < 0){
 
         if (rocket.xLoc > rocket.xMin) {
@@ -355,6 +366,7 @@ function canvasApp() {
         }
 
       }
+      //check if user tilting device right
       else if (gamma > 0){
         if (rocket.xLoc < rocket.xMax) {
           rocket.xLoc += rocket.turningSpeed * (Math.abs(gamma) / 30) * modifier;
@@ -367,6 +379,7 @@ function canvasApp() {
         }
 
       }
+
       if (37 in keysDown && !(39 in keysDown)) { // Player holding left
         if (rocket.xLoc > rocket.xMin) {
           rocket.xLoc -= rocket.turningSpeed * modifier;
@@ -420,15 +433,16 @@ function canvasApp() {
   };
 
   var restart = function () {
-    //console.log("restarting");
     document.getElementById("action_modal").setAttribute("class","hidden_modal");
     then = Date.now();
     rocket.speed = 400;
     rocket.maxSpeed = 800;
     rocket.angle = 0;
     rocket.xLoc = 0;
+    game.yOrig = rocket.yLoc;
     game.gameOver = false;
     game.startTime = Date.now();
+    game.countComplete = false;
     stars = [];
     rocket.score = 0;
     rocket.health = rocket.startHealth;
@@ -436,6 +450,23 @@ function canvasApp() {
       resume();
       main();
     }, 1000);
+
+  };
+
+  var drawCountdown = function() {
+    if(rocket.yLoc < game.yOrig - timerLocs[3]){
+      game.countComplete = true
+    }
+    context.textAlign="center";
+    context.strokeStyle = "rgb(0,0,0)";
+    context.lineWidth = 1;
+    context.fillStyle = "rgb(255,255,255)";
+    context.font = "80px Arial";
+
+    for(var i = 0; i < 4; i++){
+      context.fillText(timerStrings[i], 0,game.yOrig - timerLocs[i]);
+      context.strokeText(timerStrings[i], 0,game.yOrig - timerLocs[i]);
+    }
 
   };
 
@@ -449,7 +480,6 @@ function canvasApp() {
     document.getElementById("health").setAttribute("value",rocket.health.toString());
     if (!game.gameOver) {
       var dY = (rocket.speed * modifier);
-      //rocket.xLoc += dX;
       rocket.yLoc -= dY;
       rocket.yPoint -= dY;
       window.yMax -= dY;
@@ -457,14 +487,14 @@ function canvasApp() {
       updateStars();
     }
       drawStars();
+    if(!game.countComplete){
+      drawCountdown();
+    }
 
-    context.strokeStyle = "rgb(80,80,80)";
-    context.lineWidth = 1;
-    context.fillStyle = "#6bf94f";
-    context.font = "80px Arial";
-    context.fillText("1", 0, -rocket.speed - 80);
-    context.fillText("2", 0, (-rocket.speed - 80)*2);
-    context.fillText("3", 0, (-rocket.speed-80)*3);
+
+
+
+
 
 
 
@@ -516,6 +546,7 @@ function canvasApp() {
 
   function hideHelp(){
     document.getElementById("help_modal").className = "hidden";
+    resume();
   }
 
   document.getElementById("pause").onclick = function() {
@@ -530,7 +561,6 @@ function canvasApp() {
   };
 
   document.getElementById("action_modal").onclick = function() {
-    //pause
     restart();
   };
 ///todo have modal show up at start if user has never played
@@ -543,11 +573,14 @@ function canvasApp() {
   };
 
 
-  //from moz -- todo check that they're using a smart phone
+  //from moz
+  //will be 2/3 current + 1/3 past gamma, smoother movement
   function handleOrientation(event) {
     gamma = (gamma + 2*event.gamma)/3;
   }
+
   //from http://stackoverflow.com/questions/3514784/what-is-the-best-way-to-detect-a-mobile-device-in-jquery
+  //only add the tilt listener if on mobile
   if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
     window.addEventListener('deviceorientation', handleOrientation);
   }
@@ -569,24 +602,29 @@ function canvasApp() {
       then = now;
     }
 
-    //console.log("requesting animation frame");
     requestAnimationFrame(main);
   }
   var w = window;
   var requestAnimationFrame = w.requestAnimationFrame || w.webkitRequestAnimationFrame || w.msRequestAnimationFrame || w.mozRequestAnimationFrame;
   context.translate(width / 2, height / 2);
 
-  console.log("about to call main for first   time");
+
+  //will calculate correct y location for timer chars
+  for(var i = 0; i < 4; i++){
+    timerLocs.push((rocket.startSpeed + 80)*(i+1));
+  }
 
   if (document.cookie.indexOf("visited") == 0) {
-    hideHelp();
     main();
+    console.log("hide help");
+    hideHelp();
   } else {
     document.cookie = "visited";
+    console.log("shhow help");
     main();
     showHelp();
   }
-  //main();
 
 
-} //canvasApp()
+
+}
