@@ -162,7 +162,6 @@ function canvasApp() {
 //will draw all stars
   var drawStars = function () {
     if (typeof stars !== 'undefined') {
-      //console.log("working");
       for (var i = 0; i < stars.length; i++) {
         var tempStarCol;
         var tempTextCol;
@@ -330,13 +329,8 @@ function canvasApp() {
 
 
   var update = function (modifier) {
-    //console.log(roundedAngle);
     if (rocket.health < 1 && !game.gameOver) {
       gameOver();
-    }
-    if (game.gameOver && 82 in keysDown) {
-      //console.log("restart");
-      restart();
     }
     if (!game.gameOver) {
       //don't count collisions prior to the timer being finished
