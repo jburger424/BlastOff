@@ -187,7 +187,6 @@ function canvasApp() {
   var getDistance = function (x1, y1, x2, y2) {
     return Math.sqrt(Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2));
   };
-//TODO keyboard pause
   var updateStars = function () {
     //wait an extra half second
       var numStars = 50;
@@ -330,6 +329,12 @@ function canvasApp() {
 
   addEventListener("keydown", function (e) {
     keysDown[e.keyCode] = true;
+    if(e.keyCode == 32){
+      if(!game.isPaused)
+        pause();
+      else
+        resume();
+    }
   }, false);
 
   addEventListener("keyup", function (e) {

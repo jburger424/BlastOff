@@ -172,7 +172,7 @@ meter::-webkit-meter-optimum-value, meter::-webkit-meter-suboptimum-value, meter
     border: 2px #ff3400 solid;
 }
 #pause_help span:hover{
-    color: #202020;
+    background: #2c2c94;
 }
 
 .noselect {
