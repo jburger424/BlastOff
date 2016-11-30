@@ -441,7 +441,7 @@ function canvasApp() {
   };
 
   var restart = function () {
-    document.getElementById("action_modal").setAttribute("class","hidden_modal");
+    document.getElementById("restart_modal").setAttribute("class","hidden_modal");
     then = Date.now();
     rocket.speed = 400;
     rocket.maxSpeed = 800;
@@ -513,7 +513,7 @@ function canvasApp() {
 
     if (game.gameOver) {
       pause();
-      document.getElementById("action_modal").setAttribute("class","");
+      document.getElementById("restart_modal").setAttribute("class","");
 
     }
 
@@ -568,14 +568,14 @@ function canvasApp() {
     }
   };
 
-  document.getElementById("action_modal").onclick = function() {
+  document.getElementById("restart_modal").onclick = function() {
     restart();
   };
-///todo have modal show up at start if user has never played
-  //show help
+
   document.getElementById("help_button").onclick = function() {
     showHelp();
   };
+
   document.getElementById("close_help").onclick = function() {
     hideHelp();
   };

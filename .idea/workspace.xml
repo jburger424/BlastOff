@@ -25,11 +25,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="blastoff.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="blastoff.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/blastoff.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.60988295">
-              <caret line="614" column="3" selection-start-line="614" selection-start-column="3" selection-end-line="614" selection-end-column="3" />
+            <state vertical-scroll-proportion="-18.62963">
+              <caret line="483" column="29" selection-start-line="483" selection-start-column="27" selection-end-line="483" selection-end-column="29" />
               <folding />
             </state>
           </provider>
@@ -48,18 +48,18 @@
       <file leaf-file-name="blastoff.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/blastoff.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-15.294118">
-              <caret line="52" column="31" selection-start-line="52" selection-start-column="31" selection-end-line="52" selection-end-column="31" />
+            <state vertical-scroll-proportion="-2.5">
+              <caret line="4" column="33" selection-start-line="4" selection-start-column="33" selection-end-line="4" selection-end-column="33" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="blastoff.css" pinned="false" current-in-tab="false">
+      <file leaf-file-name="blastoff.css" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/css/blastoff.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="16.814816">
-              <caret line="118" column="6" selection-start-line="118" selection-start-column="6" selection-end-line="118" selection-end-column="6" />
+            <state vertical-scroll-proportion="0.9414824">
+              <caret line="206" column="5" selection-start-line="206" selection-start-column="5" selection-end-line="206" selection-end-column="5" />
               <folding />
             </state>
           </provider>
@@ -75,8 +75,8 @@
       <list>
         <option value="/" />
         <option value="$PROJECT_DIR$/blastoff.html" />
-        <option value="$PROJECT_DIR$/css/blastoff.css" />
         <option value="$PROJECT_DIR$/js/blastoff.js" />
+        <option value="$PROJECT_DIR$/css/blastoff.css" />
       </list>
     </option>
   </component>
@@ -179,7 +179,7 @@
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="FullScreen" value="false" />
     <property name="jsx.switch.disabled" value="true" />
-    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+    <property name="settings.editor.selected.configurable" value="preferences.sourceCode" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file:///Users/Jon/Google_Drive/Comp 106/BlastOff/blastoff.html" />
   </component>
@@ -698,14 +698,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/css/blastoff.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="16.814816">
-          <caret line="118" column="6" selection-start-line="118" selection-start-column="6" selection-end-line="118" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/NoSleep.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -714,18 +706,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/blastoff.html">
+    <entry file="file://$PROJECT_DIR$/js/blastoff.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-15.294118">
-          <caret line="52" column="31" selection-start-line="52" selection-start-column="31" selection-end-line="52" selection-end-column="31" />
+        <state vertical-scroll-proportion="-18.62963">
+          <caret line="483" column="29" selection-start-line="483" selection-start-column="27" selection-end-line="483" selection-end-column="29" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/blastoff.js">
+    <entry file="file://$PROJECT_DIR$/blastoff.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.60988295">
-          <caret line="614" column="3" selection-start-line="614" selection-start-column="3" selection-end-line="614" selection-end-column="3" />
+        <state vertical-scroll-proportion="-2.5">
+          <caret line="4" column="33" selection-start-line="4" selection-start-column="33" selection-end-line="4" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/css/blastoff.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.9414824">
+          <caret line="206" column="5" selection-start-line="206" selection-start-column="5" selection-end-line="206" selection-end-column="5" />
           <folding />
         </state>
       </provider>

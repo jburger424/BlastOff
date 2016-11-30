@@ -1,242 +1,210 @@
-/*
-	canvas-template.css 
-*/
-
-/* -------------------------------------------------------------- */
-/* Fonts */
-
-/* find fonts that you like from https://www.google.com/fonts/ and include them here*/
+/* import font*/
 @import url(http://fonts.googleapis.com/css?family=Oswald);
-@import url(http://fonts.googleapis.com/css?family=Lato);
 
-
-/* -------------------------------------------------------------- */
-/* Text Styles */
-
-/* Use the Oswald font as the default */
-* {
-    font-family: 'Oswald', sans-serif; /* default font - change this */
-    color: #665544; /* default color -- change this */
+body, html {
+  font-family: 'Oswald', sans-serif;
+  background-color: grey;
+  margin: 0;
+  overflow: hidden;
 }
-
-/* Use the Lato font pairing for all the headers */
-h2{
-    font-size: 50px;
-    padding-left: 0;
-    padding-right: 0;
-    margin: 10px;
-    display: block;
-    text-align: center;
-
-
-}
-
-h1, h2, h3, h4, h5, h6 {
-    font-family: 'Lato', sans-serif;
-}
-
-
-
-
-
-/* -------------------------------------------------------------- */
-/* Canvas Styles */
 
 #canvas {
-    padding-left: 0;
-    padding-right: 0;
-    margin-left: auto;
-    margin-right: auto;
-    display: block;
-    height: 100%;
-    -webkit-border-radius: 4%;
-    -moz-border-radius: 4%;
-    border-radius: 4%;
+  border-radius: 4%;
+  -moz-border-radius: 4%;
+  -webkit-border-radius: 4%;
+  display: block;
+  height: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 0;
+  padding-right: 0;
 }
 
-div#help_modal {
-    position: absolute;
-    display: block;
-    width: 400px;
-    max-width: 90%;
-    border: 3px orange solid;
-    border-radius: 10px;
-    padding: 8px;
-    left: 0;
-    right: 0;
-    margin: 0 auto;
-    background: whitesmoke;
+/*begin controls*/
+#head {
+  margin: 10px auto;
 }
-
-.hidden{
-    display: none !important;
-}
-
-span#close_help {
-    display: block;
-    text-align: right;
-    font-family: sans-serif;
-    font-size: 24px;
-    transform: scaleY(.9);
-    color: grey;
-    cursor: pointer;
-}
-span#close_help:hover{
-    color: black;
-}
-.star{
-    display: inline-block;
-    width: 30px;
-    text-align: center;
-}
-.lg.star{
-    font-size: 30px;
-}
-.md.star{
-    font-size: 20px;
-}
-.sm.star{
-    font-size: 10px;
-}
-
-.col-4 {
-    display: inline-block;
-    width: 30%;
-}
-body, html{
-    margin: 0px;
-    overflow: hidden;
-    background-color: grey;
-}
-
-.float-left{
-    float: left;
-}
-
-.float-right{
-    float: right;
-}
-#head{
-    margin: 10px auto;
-}
-
-div#score_health {
-    margin-left: 0%;
-    width: 45%;
-    display: inline-block;
-}
-
-div#score {
-    text-align: center;
-    font-size: 31px;
-    display: inline-block;
-    background: url('http://pngimg.com/upload/star_PNG1597.png');
-    background-size: inherit;
-    /* background-repeat: no-repeat; */
-    background-position-x: 50%;
-    background-position-y: 55%;
-    height: 100%;
-    width: 20%;
-    color: #1f1f1f;
-    border-radius: 50%;
+#score {
+  background: url('http://pngimg.com/upload/star_PNG1597.png');
+  background-position-x: 50%;
+  background-position-y: 55%;
+  background-size: inherit;
+  border-radius: 50%;
+  /* background-repeat: no-repeat; */
+  color: #1f1f1f;
+  display: inline-block;
+  font-size: 31px;
+  height: 100%;
+  text-align: center;
+  width: 20%;
 }
 
 #health {
-    transition: all 300ms;
-    height: 1.5em;
-    width: 57%;
-    display: inline-block;
-    margin-left: 21%;
+  display: inline-block;
+  height: 1.5em;
+  margin-left: 21%;
+  transition: all 300ms;
+  width: 57%;
 }
+/*animation for health meter*/
 meter::-webkit-meter-optimum-value, meter::-webkit-meter-suboptimum-value, meter::-webkit-meter-even-less-good-value {
-    transition: all 300ms;
+  transition: all 300ms;
+}
+#pause_help span {
+  background: #1f1f65;
+  border: 2px #ff3400 solid;
+  border-radius: 10%;
+  color: whitesmoke;
+  cursor: pointer;
+  display: inline-block;
+  text-align: center;
+  width: 1em;
 }
 
+#score_health {
+  display: inline-block;
+  margin-left: 0%;
+  width: 45%;
+}
 
-#pause_help{
-    font-size: 40px;
-    height: 0em;
-    line-height: 1.2em;
-    display: inline-block;
-    width: 50%;
-    height: auto;
+#pause_help {
+  display: inline-block;
+  font-size: 40px;
+  height: 0em;
+  height: auto;
+  line-height: 1.2em;
+  width: 50%;
 }
-#pause_help span{
-    cursor: pointer;
-    color: whitesmoke;
-    width: 1em;
-    text-align: center;
-    background: #1f1f65;
-    display: inline-block;
-    border-radius: 10%;
-    border: 2px #ff3400 solid;
+
+#pause_help span:hover {
+  background: #2c2c94;
 }
-#pause_help span:hover{
-    background: #2c2c94;
+/*end controls*/
+
+/*begin help modal*/
+div#help_modal {
+  background: whitesmoke;
+  border: 3px orange solid;
+  border-radius: 10px;
+  display: block;
+  left: 0;
+  margin: 0 auto;
+  max-width: 90%;
+  padding: 8px;
+  position: absolute;
+  right: 0;
+  width: 400px;
+}
+
+span#close_help {
+  color: grey;
+  cursor: pointer;
+  display: block;
+  font-family: sans-serif;
+  font-size: 24px;
+  text-align: right;
+  transform: scaleY(.9);
+}
+
+span#close_help:hover {
+  color: black;
+}
+
+.star {
+  display: inline-block;
+  text-align: center;
+  width: 30px;
+}
+
+.lg.star {
+  font-size: 30px;
+}
+
+.md.star {
+  font-size: 20px;
+}
+
+.sm.star {
+  font-size: 10px;
+}
+/*end help modal*/
+
+/*begin restart modal*/
+#restart_modal {
+  background: #c3c3c3;
+  border: 3px solid #777777;
+  border-radius: 50%;
+  bottom: 0;
+  color: white;
+  cursor: pointer;
+  height: 200px;
+  left: 0;
+  margin: auto;
+  opacity: 1;
+  overflow: hidden;
+  position: absolute;
+  right: 0;
+  text-align: center;
+  top: 0;
+  transform: scale(1) rotate(0deg);
+  transition: transform 1s, opacity 1s;
+  width: 200px;
+}
+
+#restart_modal.hidden_modal {
+  opacity: 0;
+  transform: scale(.1) rotate(360deg);
+}
+
+#restart_modal div#button {
+  background: green;
+  /* width: 50px; */
+  /* text-align: center; */
+  /* display: inline-block; */
+  /* border-radius: 50%; */
+  bottom: 0;
+  color: white;
+  font-size: 32px;
+  height: 50px;
+  line-height: 50px;
+  position: absolute;
+  transition: all 200ms;
+  width: 100%;
+}
+
+#restart_modal:hover div#button {
+  height: 60px;
+}
+
+#restart_modal div#text {
+  bottom: 50%;
+  color: #434343;
+  font-size: 30px;
+  position: absolute;
+  transform: translateY(50%);
+  width: 100%;
+}
+/*end restart modal*/
+
+/*begin helper classes*/
+.hidden {
+  display: none !important;
 }
 
 .noselect {
-    -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Chrome/Safari/Opera */
-    -khtml-user-select: none; /* Konqueror */
-    -moz-user-select: none; /* Firefox */
-    -ms-user-select: none; /* Internet Explorer/Edge */
-    user-select: none; /* Non-prefixed version, currently
-                                  not supported by any browser */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
-#action_modal {
-    text-align: center;
-    border: 3px solid #777777;
-    width: 200px;
-    background: #c3c3c3;
-    height: 200px;
-    position: absolute;
-    border-radius: 50%;
-    overflow: hidden;
-    margin: auto;
-    color: white;
-    cursor: pointer;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    top: 0;
-    transition: transform 1s, opacity 1s;
-    transform: scale(1) rotate(0deg);
-    opacity: 1;
+.col-4 {
+  display: inline-block;
+  width: 30%;
 }
-#action_modal.hidden_modal{
-    transform: scale(.1) rotate(360deg);
-    opacity: 0;
-}
-#action_modal div#button {
-    background: green;
-    /* width: 50px; */
-    /* text-align: center; */
-    /* display: inline-block; */
-    /* border-radius: 50%; */
-    height: 50px;
-    line-height: 50px;
-    color: white;
-    font-size: 32px;
-    position: absolute;
-    width: 100%;
-    bottom: 0;
-    transition: all 200ms;
-}
-#action_modal:hover div#button{
-    height: 60px;
-}
-#action_modal div#text {
-    transform: translateY(50%);
-    position: absolute;
-    width: 100%;
-    bottom: 50%;
-    font-size: 30px;
-    color: #434343;
-}
-
-
+/*end helper classes*/
 
 
 

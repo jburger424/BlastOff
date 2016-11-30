@@ -1,83 +1,80 @@
 <!DOCTYPE html>
 <html>
-  <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="viewport" content="initial-scale=1, user-scalable=no">
-	<title>Blast Off!</title>
-      <!-- link in style sheets -->
-      <link href="css/blastoff.css" type="text/css" rel="stylesheet" />
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <!--for mobile compatibility-->
+  <meta name="viewport" content="initial-scale=1, user-scalable=no">
+  <title>Blast Off!</title>
 
-      <!-- include JS scripts -->
-      <script src="js/modernizr.js"></script>
-    <script src="js/NoSleep.js"></script>
-      <script src="js/blastoff.js"></script>
+  <link href="css/blastoff.css" type="text/css" rel="stylesheet"/>
 
-
+  <script src="js/modernizr.js"></script>
+  <script src="js/NoSleep.js"></script>
+  <script src="js/blastoff.js"></script>
 
 </head>
 
 <body>
-      <div id="head">
-        <div id="controls" class="noselect">
-          <div id="pause_help">
-            <span id="pause">&#9208;</span>
-             |
-            <span id="help_button">?</span>
-          </div>
-          <div id="score_health">
+<div id="head">
+  <div id="controls" class="noselect">
+    <div id="pause_help">
+      <span id="pause">&#9208;</span>
+      |
+      <span id="help_button">?</span>
+    </div>
+    <div id="score_health">
 
-            <div id="score">
-              0
-            </div>
-            <meter id="health" max=10 min=0.0 value=10 high=8 low=3 optimum=9></meter>
-          </div>
-
-
-        </div>
+      <div id="score">
+        0
       </div>
-      <div class="hidden_modal" id="action_modal">
-        <div id="text">
-          Game Over<br>
-          Restart?<br>
-        </div>
+      <meter id="health" max=10 min=0.0 value=10 high=8 low=3 optimum=9></meter>
+    </div>
 
 
-        <div id="button">
-          &#10227;
-        </div>
-      </div>
-        <div id="help_modal" class="hidden">
-          <span id="close_help">x</span>
-          &#9664; (Keyboard) - Go Left
-          <br>
-          &#9654; (Keyboard) - Go Right
-          <br>
-          {Spacebar} (Keyboard) - Pause
-          <br><br>
-          Hitting Yellow Stars will Increase Your Score
-          <br>
-          Hitting Red Stars will Decrease Your Health
-          <br>
-          <div class="col-4">
-            <span class="lg star">&#9733;</span>&plusmn; 1
-          </div>
-          <div class="col-4">
-            <span class="md star">&#9733;</span>&plusmn; 2
-          </div>
-          <div class="col-4">
-            <span class="sm star">&#9733;</span>&plusmn; 3
-          </div>
+  </div>
+</div>
+<div class="hidden_modal" id="restart_modal">
+  <div id="text">
+    Game Over<br>
+    Restart?<br>
+  </div>
 
 
-        </div>
+  <div id="button">
+    &#10227;
+  </div>
+</div>
+<div id="help_modal" class="hidden">
+  <span id="close_help">x</span>
+  &#9664; (Keyboard) - Go Left
+  <br>
+  &#9654; (Keyboard) - Go Right
+  <br>
+  {Spacebar} (Keyboard) - Pause
+  <br><br>
+  Hitting Yellow Stars will Increase Your Score
+  <br>
+  Hitting Red Stars will Decrease Your Health
+  <br>
 
-        <!-- Canvas -->
-      <div>
-        <canvas id="canvas">
-          Your browser doesn't support Canvas.
-        </canvas>
-        <!-- ^ End Canvas -->
-      </div>
+  <div class="col-4">
+    <span class="lg star">&#9733;</span>&plusmn; 1
+  </div>
+  <div class="col-4">
+    <span class="md star">&#9733;</span>&plusmn; 2
+  </div>
+  <div class="col-4">
+    <span class="sm star">&#9733;</span>&plusmn; 3
+  </div>
+
+
+</div>
+
+<div>
+  <canvas id="canvas">
+    Your browser doesn't support Canvas.
+  </canvas>
+</div>
 
 
 </body>
