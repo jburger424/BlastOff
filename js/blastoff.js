@@ -12,10 +12,11 @@ function canvasApp() {
   if (!canvasSupport()) {
     return;
   }
-  var canvas = document.getElementById("myCanvas");
+  var canvas = document.getElementById("canvas");
   var headHeight = document.getElementById("head").clientHeight + 30;
-  canvas.width = document.body.clientWidth; //document.width is obsolete
-  canvas.height = window.innerHeight - headHeight; //125 is header height
+  //canvas.width = document.body.clientWidth;
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight - headHeight;
   if(canvas.width > canvas.height){
     canvas.width = canvas.height;
   }
@@ -37,7 +38,8 @@ function canvasApp() {
     startTime: Date.now(),
     isPaused: false,
     yOrig: 0,
-    countComplete: false
+    countComplete: false,
+    onMobile: false
   };
   var rocket = {
     yOffset: 100,
@@ -589,6 +591,7 @@ function canvasApp() {
   //only add the tilt listener if on mobile
   if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
     window.addEventListener('deviceorientation', handleOrientation);
+    game.onMobile = true;
   }
 
 
@@ -629,23 +632,17 @@ function canvasApp() {
     showHelp();
   }
 
-  var noSleep = new NoSleep();
+  if(game.onMobile){
+    var noSleep = new NoSleep();
 
-  function enableNoSleep() {
-    noSleep.enable();
-    document.removeEventListener('touchstart', enableNoSleep, false);
-  }
+    function enableNoSleep() {
+      noSleep.enable();
+      document.removeEventListener('touchstart', enableNoSleep, false);
+    }
 
 // Enable wake lock.
 // (must be wrapped in a user input event handler e.g. a mouse or touch handler)
-  document.addEventListener('touchstart', enableNoSleep, false);
-
-// ...
-
-// Disable wake lock at some point in the future.
-// (does not need to be wrapped in any user input event handler)
-  //noSleep.disable();
-
-
+    document.addEventListener('touchstart', enableNoSleep, false);
+  }
 
 }

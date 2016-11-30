@@ -42,7 +42,7 @@ h1, h2, h3, h4, h5, h6 {
 /* -------------------------------------------------------------- */
 /* Canvas Styles */
 
-#myCanvas {
+#canvas {
     padding-left: 0;
     padding-right: 0;
     margin-left: auto;
@@ -58,6 +58,7 @@ div#help_modal {
     position: absolute;
     display: block;
     width: 400px;
+    max-width: 90%;
     border: 3px orange solid;
     border-radius: 10px;
     padding: 8px;
@@ -115,9 +116,8 @@ body, html{
 .float-right{
     float: right;
 }
-#head{ /*todo autoset width*/
-    margin: 0 auto;
-    margin-bottom: 10px;
+#head{
+    margin: 10px auto;
 }
 
 div#score_health {
@@ -185,7 +185,7 @@ meter::-webkit-meter-optimum-value, meter::-webkit-meter-suboptimum-value, meter
                                   not supported by any browser */
 }
 
-div#action_modal {
+#action_modal {
     text-align: center;
     border: 3px solid #777777;
     width: 200px;
@@ -207,7 +207,7 @@ div#action_modal {
 }
 #action_modal.hidden_modal{
     transform: scale(.1) rotate(360deg);
-    opacity: 0;;
+    opacity: 0;
 }
 #action_modal div#button {
     background: green;
@@ -234,10 +234,6 @@ div#action_modal {
     bottom: 50%;
     font-size: 30px;
     color: #434343;
-}
-
-@media only screen and (max-width : 768px) {
-
 }
 
 
