@@ -68,8 +68,6 @@ function canvasApp() {
   function Star() {
     //angle is in radians
     this.angle = Math.random() * 3.14 * 2;
-    this.value;
-    this.isRed;
     //10% of stars will be red
     this.isRed = Math.random() < .1;
     this.randNum = Math.random();
@@ -95,7 +93,14 @@ function canvasApp() {
       counter++;
       validLoc = true;
       tempXLoc = dLoc - Math.random() * 2 * dLoc;
-      tempYLoc = rocket.yLoc - height / 2 - Math.random() * height;
+      if(game.countComplete){
+        tempYLoc = rocket.yLoc - height - Math.random() * height;
+      }
+      else{
+        tempYLoc = rocket.yLoc - height / 2 - Math.random() * height;
+      }
+
+
       if (stars.length > 0) {
         for (var i = 0; i < stars.length; i++) {
           var tempDist = getDistance(tempXLoc, tempYLoc, stars[i].xLoc, stars[i].yLoc);
@@ -110,10 +115,6 @@ function canvasApp() {
 
 
     this.hasCollided = false;
-
-    this.createTime = game.time;
-
-    //anything else that shouldn't happen?
 
       this.draw = function () {
         if(validLoc){
@@ -454,7 +455,7 @@ function canvasApp() {
   };
 
   var drawCountdown = function() {
-    if(rocket.yLoc < game.yOrig - timerLocs[3]){
+    if(rocket.yLoc < game.yOrig - timerLocs[3] - 200){
       game.countComplete = true
     }
     context.textAlign="center";
@@ -614,12 +615,12 @@ function canvasApp() {
     timerLocs.push((rocket.startSpeed + 80)*(i+1));
   }
 
-  if (document.cookie.indexOf("visited") == 0) {
+  if (document.cookie.indexOf("visited") != -1) {
     main();
     console.log("hide help");
     hideHelp();
   } else {
-    document.cookie = "visited";
+    document.cookie = "visited=true";
     console.log("shhow help");
     main();
     showHelp();
